@@ -17,6 +17,9 @@
 </template>
 
 <script>
+import play from 'audio-play'
+import load from 'audio-loader'
+
 export default {
   data() {
     return {
@@ -94,6 +97,7 @@ export default {
 
     increaseScore() {
       if (this.status === true) {
+        load('sounds/341695__projectsu012__coins-1.wav').then(buffer => play(buffer))
         this.score++;
         this.setActiveSensor();
       }
