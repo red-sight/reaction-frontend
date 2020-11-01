@@ -19,6 +19,7 @@
 <script>
 import play from 'audio-play'
 import load from 'audio-loader'
+const coinSound = require ('assets/sounds/341695__projectsu012__coins-1.wav')
 
 export default {
   data() {
@@ -97,7 +98,7 @@ export default {
 
     increaseScore() {
       if (this.status === true) {
-        load('sounds/341695__projectsu012__coins-1.wav').then(buffer => play(buffer))
+        load(coinSound).then(buffer => play(buffer))
         this.score++;
         this.setActiveSensor();
       }
