@@ -1,18 +1,21 @@
 <template>
-  <div v-show="show" class="modal-backdrop">
-    <div class="modal">
-      <div class="modal__title">
-        <slot name="title">Информация</slot>
-        <div class="modal__close-icon" @click="close"></div>
-      </div>
-      <div class="modal__content">
-        <slot name="content"></slot>
-      </div>
-      <div class="modal__actions">
-        <slot name="actions">ok</slot>
-      </div>
-    </div>
-  </div>
+  <q-dialog v-model="showModel" :persistent="true"
+    ><q-card>
+      <q-card-section class="text-h6 bg-primary text-white text-uppercase">
+        Ваш результат
+      </q-card-section>
+
+      <q-card-section>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
+        repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis
+        perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+        minima, porro labore.
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="OK" color="primary" v-close-popup />
+      </q-card-actions> </q-card
+  ></q-dialog>
 </template>
 
 <script>
@@ -30,9 +33,20 @@ export default {
     }
   },
 
+  computed: {
+    showModel: {
+      get() {
+        return this.show;
+      },
+      set(val) {
+        this.$emit("update:show", false);
+      }
+    }
+  },
+
   methods: {
     close() {
-      this.$emit("update:show", false);
+      this.showModel = false;
     }
   }
 };
@@ -67,8 +81,8 @@ export default {
   border-radius: 100%
   *
     color: white
-  &:hover
-    background-color: $darker
+  // &:hover
+    // background-color: $darker
 
 
 .modal__content

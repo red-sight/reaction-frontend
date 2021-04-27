@@ -13,13 +13,14 @@
         @success="increaseScore"
       />
     </div>
+    <result-modal :show.sync="showModal" />
   </div>
 </template>
 
 <script>
-import play from 'audio-play'
-import load from 'audio-loader'
-const coinSound = require ('assets/sounds/341695__projectsu012__coins-1.wav')
+import play from "audio-play";
+import load from "audio-loader";
+const coinSound = require("assets/sounds/341695__projectsu012__coins-1.wav");
 
 export default {
   data() {
@@ -31,13 +32,14 @@ export default {
       time: 21,
       timeCounter: null,
       showModal: false,
-      fullscreenEnabled: null
+      fullscreenEnabled: null,
+      increaseScoreSound: null
     };
   },
 
   components: {
-    batak: () => import("../components/Batak.vue")
-    // modal: () => import("../components/Modal.vue")
+    batak: () => import("../components/Batak.vue"),
+    ResultModal: () => import("../components/ResultModal.vue")
     // FullscreenExitIcon: () => import("assets/icons/FullscreenExit.vue"),
     // FullscreenIcon: () => import("assets/icons/Fullscreen.vue"),
     // CloseIcon: () => import("assets/icons/Close.vue")
@@ -61,6 +63,10 @@ export default {
     this.$refs.fullscreenContainer.addEventListener("fullscreenchange", () => {
       this.fullscreenEnabled = !!document.fullscreenElement;
     });
+  },
+
+  async created() {
+    this.increaseScoreSound = await load(coinSound);
   },
 
   methods: {
@@ -98,7 +104,7 @@ export default {
 
     increaseScore() {
       if (this.status === true) {
-        load(coinSound).then(buffer => play(buffer))
+        play(this.increaseScoreSound);
         this.score++;
         this.setActiveSensor();
       }
