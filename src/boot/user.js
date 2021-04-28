@@ -12,7 +12,7 @@ export default async ({ app, router, store, Vue }) => {
     if (!!res.data && !res.data.blocked && !!res.data.confirmed) {
       store.commit("user/setProfile", res.data);
     } else {
-      Cookies.remove("reaction_jwt");
+      Cookies.remove("reaction_jwt", { path: "/" });
     }
   }
 };

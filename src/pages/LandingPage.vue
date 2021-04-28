@@ -147,9 +147,9 @@ export default {
       this.loginExpanded = val;
     },
 
-    onLogout() {
+    async onLogout() {
+      this.$q.cookies.remove("reaction_jwt", { path: "/" });
       this.$store.commit("user/setProfile", null);
-      this.$q.cookies.remove("reaction_jwt");
       this.loginExpanded = false;
     }
   }
