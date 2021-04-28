@@ -1,59 +1,17 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label header class="text-grey-8">
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  <div class="layout-container font-brand">
+    <router-view />
+  </div>
 </template>
 
-<script>
-export default {
-  name: "MainLayout",
-  data() {
-    return {};
-  },
+<script></script>
 
-  mounted() {
-    console.log(process.env.NODE_ENV);
-  }
-};
-</script>
-
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.layout-container
+  height: 100vh
+  background-image: url('~src/assets/img/bg-1.jpg')
+  background-size: cover
+  background-position: center
+  display: flex
+  justify-content: center
+</style>

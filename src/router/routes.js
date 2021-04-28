@@ -1,7 +1,17 @@
 const routes = [
   {
     path: "/",
-    component: () => import("pages/PageMain.vue")
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/LandingPage.vue")
+      },
+      {
+        path: "auth/:provider",
+        component: () => import("pages/auth/AuthRedirectPage.vue")
+      }
+    ]
   },
 
   {
