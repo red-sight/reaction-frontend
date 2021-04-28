@@ -10,7 +10,10 @@
       </div>
 
       <!-- Enter -->
-      <div :class="{ 'col-6': !loginExpanded, 'col-12': loginExpanded }">
+      <div
+        :class="{ 'col-6': !loginExpanded, 'col-12': loginExpanded }"
+        v-if="!user"
+      >
         <q-expansion-item
           expand-separator
           class="bg-green-8 text-white clickable v-ripple"
@@ -42,9 +45,41 @@
         </q-expansion-item>
       </div>
 
+      <!-- Logged in -->
+      <div class="col-6" v-if="user">
+        <q-expansion-item
+          expand-separator
+          class="bg-green-8 text-white clickable v-ripple"
+          style="border-radius: 3px"
+          @input="onLoginExpanded"
+          expand-icon-class="text-white"
+        >
+          <template v-slot:header>
+            <q-item-section avatar>
+              <q-icon name="account_circle" color="white" size="48px" />
+            </q-item-section>
+
+            <q-item-section style="height:64px">
+              <span class="text-white text-h6">{{ user.username }}</span>
+              <span class="text-white text-caption">
+                Профиль {{ user.provider }}
+              </span>
+            </q-item-section>
+          </template>
+          <q-card class="bg-green-8 text-white">
+            <q-card-actions class="flex justify-end">
+              <q-btn flat label="Выйти" @click="onLogout" />
+            </q-card-actions>
+          </q-card>
+        </q-expansion-item>
+      </div>
+
       <!-- Play -->
       <div class="col-6">
-        <q-card class="bg-pink text-white q-py-sm clickable v-ripple">
+        <q-card
+          class="bg-pink text-white q-py-sm cursor-pointer"
+          @click="$router.push('/game')"
+        >
           <q-item>
             <q-item-section avatar
               ><q-icon name="sports_handball" size="48px"
@@ -101,9 +136,21 @@ export default {
     };
   },
 
+  computed: {
+    user() {
+      return this.$store.state.user.profile;
+    }
+  },
+
   methods: {
     onLoginExpanded(val) {
       this.loginExpanded = val;
+    },
+
+    onLogout() {
+      this.$store.commit("user/setProfile", null);
+      this.$q.cookies.remove("reaction_jwt");
+      this.loginExpanded = false;
     }
   }
 };

@@ -15,8 +15,19 @@
 export default {
   async mounted() {
     const url = `${process.env.API_URL}/auth/${this.$route.params.provider}/callback?access_token=${this.$route.query.access_token}`;
-    console.log(url);
-    await this.$axios.get(url);
+    const res = await this.$axios.get(url);
+    if (res.data.jwt && res.data.user) {
+      this.$store.commit("user/setProfile", res.data.user);
+      const isProd = process.env.NODE_ENV === "production";
+      this.$q.cookies.set("reaction_jwt", res.data.jwt, {
+        expires: 10,
+        httpOnly: isProd,
+        sameSite: isProd,
+        secure: isProd,
+        path: "/"
+      });
+      this.$router.push("/");
+    }
   }
 };
 </script>
