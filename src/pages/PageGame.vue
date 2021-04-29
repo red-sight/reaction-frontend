@@ -46,7 +46,7 @@
 import play from "audio-play";
 import load from "audio-loader";
 const coinSound = require("assets/sounds/341695__projectsu012__coins-1.wav");
-const time = 10;
+const time = 21;
 
 export default {
   data() {
@@ -88,7 +88,6 @@ export default {
   },
 
   async mounted() {
-    await this.enableFullscreen();
     this.$refs.fullscreenContainer.addEventListener("fullscreenchange", () => {
       this.fullscreenEnabled = !!document.fullscreenElement;
     });
@@ -194,6 +193,7 @@ export default {
     },
 
     exitGame() {
+      this.$q.fullscreen.exit();
       this.$router.push("/");
     }
   }
@@ -233,7 +233,7 @@ export default {
 
 .game-container
   width: 100vw
-  background-image: url('../assets/img/bg-1.jpg')
+  background-image: url('~src/assets/img/bg-1.jpg')
   background-size: cover
 
 .game-container_blurred

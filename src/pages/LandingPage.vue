@@ -78,7 +78,10 @@
       <div class="col-6">
         <q-card
           class="bg-pink text-white q-py-sm cursor-pointer"
-          @click="$router.push('/game')"
+          @click="
+            $q.fullscreen.request();
+            $router.push('/game');
+          "
         >
           <q-item>
             <q-item-section avatar
@@ -93,6 +96,51 @@
               >Играть</q-item-section
             >
           </q-item>
+        </q-card>
+      </div>
+
+      <!-- Ваш рекорд -->
+      <div class="col-sm-4 col-xs-6" v-if="personal">
+        <q-card class="own-best-score text-white">
+          <q-card-section class="font-brand text-h6 text-weight-bold">
+            Ваш рекорд:
+          </q-card-section>
+          <q-card-section class="font-brand text-h2 q-pt-none text-weight-bold">
+            {{ personal.best.value }}
+          </q-card-section>
+          <q-card-section class="font-brand q-pt-none vertical-bottom">
+            {{ formatDate(personal.best.createdAt) }}
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <!-- Ваш последний результат -->
+      <div class="col-sm-4 col-xs-6" v-if="personal">
+        <q-card class="own-last-score text-white">
+          <q-card-section class="font-brand text-h6 text-weight-bold">
+            Последний результат:
+          </q-card-section>
+          <q-card-section class="font-brand text-h2 q-pt-none text-weight-bold">
+            19
+          </q-card-section>
+          <q-card-section class="font-brand q-pt-none vertical-bottom">
+            27.04.2021
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <!-- Игровых туров -->
+      <div class="col-sm-4 col-xs-6" v-if="personal">
+        <q-card class="own-play-count text-white">
+          <q-card-section class="font-brand text-h6 text-weight-bold">
+            Игровых туров:
+          </q-card-section>
+          <q-card-section class="font-brand text-h2 q-pt-none text-weight-bold">
+            193
+          </q-card-section>
+          <q-card-section class="font-brand q-pt-none vertical-bottom">
+            Ограничений нет :)
+          </q-card-section>
         </q-card>
       </div>
 
@@ -123,6 +171,8 @@
 </template>
 
 <script>
+import { date } from "quasar";
+
 export default {
   name: "Main",
 
@@ -139,6 +189,9 @@ export default {
   computed: {
     user() {
       return this.$store.state.user.profile;
+    },
+    personal() {
+      return this.$store.state.user.results;
     }
   },
 
@@ -151,7 +204,19 @@ export default {
       this.$q.cookies.remove("reaction_jwt", { path: "/" });
       this.$store.commit("user/setProfile", null);
       this.loginExpanded = false;
+    },
+
+    onPlayClick() {
+      this.$router.push("/game");
+    },
+
+    formatDate(val) {
+      return date.formatDate(val, "YYYY-MM-DD HH:mm");
     }
+  },
+
+  mounted() {
+    this.$store.dispatch("user/getPersonalResults");
   }
 };
 </script>
@@ -160,4 +225,16 @@ export default {
 .landing-layout-page
   width: 100%
   max-width: 780px
+
+.own-best-score
+  background-image: url('~src/assets/img/space-bg.jpeg')
+  background-size: cover
+
+.own-last-score
+  background-image: url('https://eskipaper.com/images/sky-wallpapers-4.jpg')
+  background-size: cover
+
+.own-play-count
+  background-image: url('https://wallpapershome.com/images/pages/pic_v/20703.jpg')
+  background-size: cover
 </style>
