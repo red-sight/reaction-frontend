@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="src" alt="" v-if="src" />
+    <img :src="src" alt="" v-if="src" class="score-image" />
   </div>
 </template>
 
@@ -12,6 +12,23 @@ export default {
     return {
       src: null
     };
+  },
+
+  props: {
+    score: {
+      type: Number,
+      default: 0
+    },
+    comment: {
+      type: Object,
+      default: () => {}
+    }
+  },
+
+  computed: {
+    scoreRendered() {
+      return this.score < 10 ? `0${this.score}` : this.score;
+    }
   },
 
   async mounted() {
@@ -28,7 +45,7 @@ export default {
     ctx.fillText("00", 375, 205);
     ctx.shadowColor = "#ff774d";
     ctx.fillStyle = "red";
-    ctx.fillText("25", 375, 205);
+    ctx.fillText(this.scoreRendered, 375, 205);
 
     // Ваш результат:
     ctx.font = "25px Sans";
@@ -41,14 +58,19 @@ export default {
     ctx.fillRect(20, 380, 760, 100);
     ctx.font = "40px 'PT Astra Sans'";
     ctx.fillStyle = "white";
-    ctx.fillText("Могло быть и хуже", 60, 440);
+    ctx.fillText(this.comment.message, 60, 440);
 
     // Emoji
     ctx.font = "150px Arial";
     ctx.rotate((-20 * Math.PI) / 180);
-    ctx.fillText("😜", 400, 680);
+    ctx.fillText(this.comment.emoji, 400, 680);
 
     this.src = canvas.toDataURL();
   }
 };
 </script>
+
+<style lang="sass" scoped>
+.score-image
+  width: 100%
+</style>

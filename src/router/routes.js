@@ -21,7 +21,7 @@ const routes = [
 
   {
     path: "/canvas",
-    component: () => import("components/Canvas.vue") // Kill me
+    component: () => import("src/components/ScoreImageComponent.vue") // Kill me
   },
 
   // Always leave this as last one,

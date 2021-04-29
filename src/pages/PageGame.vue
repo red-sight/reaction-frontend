@@ -13,7 +13,7 @@
         @success="increaseScore"
       />
     </div>
-    <result-modal :show.sync="showModal" />
+    <result-modal :show.sync="showModal" :score="score" />
   </div>
 </template>
 
@@ -21,6 +21,7 @@
 import play from "audio-play";
 import load from "audio-loader";
 const coinSound = require("assets/sounds/341695__projectsu012__coins-1.wav");
+const time = 21;
 
 export default {
   data() {
@@ -29,7 +30,7 @@ export default {
       demo: setInterval(this.setActiveSensor, 1000),
       score: 0,
       status: false,
-      time: 21,
+      time,
       timeCounter: null,
       showModal: false,
       fullscreenEnabled: null,
@@ -57,8 +58,8 @@ export default {
     }
   },
 
-  mounted() {
-    this.enableFullscreen();
+  async mounted() {
+    await this.enableFullscreen();
 
     this.$refs.fullscreenContainer.addEventListener("fullscreenchange", () => {
       this.fullscreenEnabled = !!document.fullscreenElement;
@@ -97,7 +98,7 @@ export default {
       clearInterval(this.timeCounter);
       console.log("Your score: " + this.score);
       this.status = false;
-      this.time = 21;
+      this.time = time;
       this.demo = setInterval(this.setActiveSensor, 1000);
       this.showModal = true;
     },
@@ -111,17 +112,18 @@ export default {
     },
 
     enableFullscreen() {
-      this.$refs.fullscreenContainer.requestFullscreen().catch(err => {
+      this.$q.fullscreen.request();
+      /* this.$refs.fullscreenContainer.requestFullscreen().catch(err => {
         if (err) {
           console.log(err);
         }
-      });
+      }); */
     },
 
     disableFullscreen() {
-      if (document.exitFullscreen) {
+      /* if (document.exitFullscreen) {
         document.exitFullscreen();
-      }
+      } */
     },
 
     exitGame() {

@@ -1,15 +1,24 @@
 <template>
   <q-dialog v-model="showModel" :persistent="true"
     ><q-card>
-      <q-card-section class="text-h6 bg-primary text-white text-uppercase">
+      <!-- <q-card-section class="text-h6 bg-primary text-white text-uppercase">
         Ваш результат
+      </q-card-section>
+ -->
+      <q-card-section class="q-pa-none">
+        <score-image :score="score" :comment="comment" v-if="showModel" />
+      </q-card-section>
+
+      <q-card-section
+        class="q-pt-xs text-italic text-primary"
+        style="font-size: 21px"
+      >
+        {{ comment.desc }}
       </q-card-section>
 
       <q-card-section>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
-        repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis
-        perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-        minima, porro labore.
+        Сохраните и поделитесь этой картинкой со своими друзьями в соц.сетях или
+        переписке! Бросьте им вызов)
       </q-card-section>
 
       <q-card-actions align="right">
@@ -19,17 +28,24 @@
 </template>
 
 <script>
+import comment from "assets/js/scoreComments";
 // import CloseIcon from 'icons/Close.vue'
 
 export default {
   components: {
     // CloseIcon
+    ScoreImage: () => import("components/ScoreImageComponent.vue")
   },
 
   props: {
     show: {
       type: Boolean,
-      default: true
+      default: false
+    },
+
+    score: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -41,6 +57,12 @@ export default {
       set(val) {
         this.$emit("update:show", false);
       }
+    },
+    comment() {
+      return comment(this.score);
+    },
+    user() {
+      return this.$store.state.user.profile;
     }
   },
 

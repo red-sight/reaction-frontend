@@ -245,9 +245,11 @@
         style="fill:#383838"
       />
       <rect x="911" y="161" width="147" height="91" />
-      <text class="score score-bg">88</text>
-      <text class="score">{{ score }}</text>
-      <text class="your-result" v-show="score > 0">Ваш результат:</text>
+      <text class="score score-bg no-select">88</text>
+      <text class="score no-select">{{ score }}</text>
+      <text class="your-result no-select" v-show="score > 0">
+        Ваш результат:
+      </text>
     </g>
 
     <g id="logo">
