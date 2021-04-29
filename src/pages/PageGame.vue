@@ -5,6 +5,7 @@
       :class="{ 'game-container_blurred': showModal }"
     >
       <batak
+        class="batak"
         :activeSensor="activeSensor"
         :status="status"
         :counter="time"
@@ -21,7 +22,7 @@
 import play from "audio-play";
 import load from "audio-loader";
 const coinSound = require("assets/sounds/341695__projectsu012__coins-1.wav");
-const time = 3;
+const time = 10;
 
 export default {
   data() {
@@ -64,7 +65,7 @@ export default {
 
   async mounted() {
     await this.enableFullscreen();
-
+    await screen.orientation.lock("landscape");
     this.$refs.fullscreenContainer.addEventListener("fullscreenchange", () => {
       this.fullscreenEnabled = !!document.fullscreenElement;
     });
@@ -176,4 +177,19 @@ export default {
 
 .score-image
   max-width: 100%
+
+@media screen and (orientation: portrait)
+  .fullscreen-container
+    justify-content: center
+
+  .game-container
+    transform: rotate(90deg)
+    position: absolute
+    width: 100vh
+    max-height: 100vw
+    display: flex
+    justify-content: center
+
+  .batak
+    max-width: 100vh
 </style>
