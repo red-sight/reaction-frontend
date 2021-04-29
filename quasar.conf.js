@@ -98,7 +98,7 @@ module.exports = function(/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Cookies", "LocalStorage", "AppFullscreen"]
+      plugins: ["Cookies", "LocalStorage", "AppFullscreen", "Dialog"]
     },
 
     // animations: 'all', // --- includes all animations

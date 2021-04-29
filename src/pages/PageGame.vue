@@ -14,6 +14,30 @@
         @success="increaseScore"
       />
     </div>
+    <div class="game-toggles">
+      <q-btn-group rounded>
+        <q-btn
+          rounded
+          color="primary"
+          icon="fullscreen"
+          v-if="!$q.fullscreen.isActive"
+          @click="$q.fullscreen.request()"
+        >
+          <q-tooltip>На весь экран</q-tooltip>
+        </q-btn>
+        <q-btn
+          rounded
+          color="primary"
+          icon="close_fullscreen"
+          v-if="$q.fullscreen.isActive"
+          @click="$q.fullscreen.exit()"
+          ><q-tooltip>Обычный экран</q-tooltip>
+        </q-btn>
+        <q-btn rounded color="primary" icon="close" @click="onExitGameClick"
+          ><q-tooltip>Закрыть игру</q-tooltip>
+        </q-btn>
+      </q-btn-group>
+    </div>
     <result-modal :show.sync="showModal" :score="score" />
   </div>
 </template>
@@ -65,7 +89,6 @@ export default {
 
   async mounted() {
     await this.enableFullscreen();
-    await screen.orientation.lock("landscape");
     this.$refs.fullscreenContainer.addEventListener("fullscreenchange", () => {
       this.fullscreenEnabled = !!document.fullscreenElement;
     });
@@ -135,6 +158,41 @@ export default {
       } */
     },
 
+    onExitGameClick() {
+      if (this.status)
+        this.$q
+          .dialog({
+            title: "Выход",
+            class: "exit-game-dialog",
+            message:
+              "Вы уверены что хотите закрыть игру и вернуться в главное меню?",
+            cancel: {
+              label: "Отмена",
+              flat: true
+            },
+            ok: {
+              label: "Выйти",
+              color: "negative",
+              flat: true
+            },
+            persistent: true
+          })
+          .onOk(() => {
+            this.$q.fullscreen.exit();
+            this.exitGame();
+          })
+          .onOk(() => {
+            // console.log('>>>> second OK catcher')
+          })
+          .onCancel(() => {
+            // console.log('>>>> Cancel')
+          })
+          .onDismiss(() => {
+            // console.log('I am triggered on both OK and Cancel')
+          });
+      else this.exitGame();
+    },
+
     exitGame() {
       this.$router.push("/");
     }
@@ -150,6 +208,12 @@ export default {
   width: 100vw
   display: flex
   align-items: center
+
+.game-toggles
+  position: fixed
+  right: 0;
+  top: 0;
+  padding: 10px
 
 .actions
   background-color: rgba(0, 0, 0, 0.7)
@@ -192,4 +256,11 @@ export default {
 
   .batak
     max-width: 100vh
+</style>
+
+<style lang="sass">
+@media screen and (orientation: portrait)
+
+  .exit-game-dialog
+    transform: rotate(90deg)
 </style>
