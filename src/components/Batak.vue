@@ -377,7 +377,7 @@
         height="87"
         rx="43.5"
       />
-      <text class="btn-start-text" transform="translate(55.01 64.1)">
+      <text class="btn-start-text no-select" transform="translate(55.01 64.1)">
         СТАРТ
       </text>
     </g>
@@ -394,8 +394,8 @@
         stroke-dashoffset="0"
       ></circle>
       <g class="timer-text">
-        <text>{{ counter }}</text>
-        <text class="timer-text-2">сек</text>
+        <text class="no-select">{{ counter }}</text>
+        <text class="timer-text-2 no-select">сек</text>
       </g>
     </g>
   </svg>

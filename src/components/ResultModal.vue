@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="showModel" :persistent="true"
-    ><q-card>
+    ><q-card class="font-brand">
       <!-- <q-card-section class="text-h6 bg-primary text-white text-uppercase">
         Ваш результат
       </q-card-section>
@@ -10,15 +10,19 @@
       </q-card-section>
 
       <q-card-section
-        class="q-pt-xs text-italic text-primary"
+        class="q-py-xs text-italic text-primary"
         style="font-size: 21px"
       >
         {{ comment.desc }}
       </q-card-section>
 
       <q-card-section>
-        Сохраните и поделитесь этой картинкой со своими друзьями в соц.сетях или
-        переписке! Бросьте им вызов)
+        Сохраните это изображение и поделитесь им со своими друзьями в соц.сетях
+        или переписке! Бросьте им вызов)
+      </q-card-section>
+
+      <q-card-section class="bg-primary text-white">
+        <auth />
       </q-card-section>
 
       <q-card-actions align="right">
@@ -34,7 +38,8 @@ import comment from "assets/js/scoreComments";
 export default {
   components: {
     // CloseIcon
-    ScoreImage: () => import("components/ScoreImageComponent.vue")
+    ScoreImage: () => import("components/ScoreImageComponent.vue"),
+    Auth: () => import("components/AuthComponent.vue")
   },
 
   props: {

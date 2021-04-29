@@ -21,7 +21,7 @@
 import play from "audio-play";
 import load from "audio-loader";
 const coinSound = require("assets/sounds/341695__projectsu012__coins-1.wav");
-const time = 21;
+const time = 3;
 
 export default {
   data() {
@@ -55,6 +55,10 @@ export default {
       return {
         VK: `https://vk.com/share.php?url=${window.location.origin}&title=Игра&image=${window.location.origin}/img/scores/0.png`
       };
+    },
+
+    user() {
+      return this.$store.state.user.profile;
     }
   },
 
@@ -89,14 +93,18 @@ export default {
             this.endGame();
           }
         }, 1000);
-        setTimeout(this.endGame, 21000);
+        setTimeout(this.endGame, time * 1000);
         this.setActiveSensor();
       }
     },
 
-    endGame() {
+    async endGame() {
       clearInterval(this.timeCounter);
       console.log("Your score: " + this.score);
+
+      if (this.user) await this.$store.dispatch("user/reportScore", this.score);
+      else this.$q.localStorage.set("last_reaction_score", this.score);
+
       this.status = false;
       this.time = time;
       this.demo = setInterval(this.setActiveSensor, 1000);

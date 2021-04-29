@@ -26,6 +26,10 @@ export default {
         secure: isProd,
         path: "/"
       });
+      if (this.$q.localStorage.getItem("last_reaction_score")) {
+        await this.$store.dispatch("user/reportScore", this.score);
+        this.$q.localStorage.remove("last_reaction_score");
+      }
       this.$router.push("/");
     }
   }
