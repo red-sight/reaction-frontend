@@ -6,8 +6,10 @@
     </div>
     <div class="text-caption q-pb-sm">
       Авторизируясь, вы выражаете свое согласие с
-      <a href="#" @click="showSiteRules = true">правилами сайта</a>, а также c
-      <a href="#" @click="showPersonalData = true"
+      <a href="#" class="text-white" @click="showSiteRules = true"
+        >правилами сайта</a
+      >, а также c
+      <a href="#" class="text-white" @click="showPersonalData = true"
         >политикой хранения личных данных</a
       >.
     </div>
