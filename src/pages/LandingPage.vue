@@ -1,5 +1,5 @@
 <template>
-  <div class="landing-layout-page">
+  <q-scroll-area class="landing-layout-page">
     <div class="row q-col-gutter-md q-pt-sm-md q-pt-xs-sm q-px-xs-sm">
       <div class="col-12">
         <q-card class="q-px-sm-lg q-px-xs-none q-py-xs-sm bg-primary">
@@ -187,8 +187,8 @@
           </q-card-section>
         </q-card>
       </div>
-    </div>
-  </div>
+    </div></q-scroll-area
+  >
 </template>
 
 <script>
