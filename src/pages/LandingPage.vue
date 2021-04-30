@@ -46,7 +46,11 @@
       </div>
 
       <!-- Logged in -->
-      <div class="col-6" v-if="user">
+      <div
+        class="col-6"
+        v-if="user"
+        :class="{ 'col-6': !loginExpanded, 'col-12': loginExpanded }"
+      >
         <q-expansion-item
           expand-separator
           class="bg-green-8 text-white clickable v-ripple"
@@ -60,10 +64,15 @@
             </q-item-section>
 
             <q-item-section style="height:64px">
-              <span class="text-white text-h6">{{ user.username }}</span>
-              <span class="text-white text-caption">
-                Профиль {{ user.provider }}
-              </span>
+              <div
+                class="column no-wrap"
+                v-show="loginExpanded || $q.screen.gt.xs"
+              >
+                <div class="text-white text-h6">{{ user.username }}</div>
+                <div class="text-white text-caption">
+                  Профиль {{ user.provider }}
+                </div>
+              </div>
             </q-item-section>
           </template>
           <q-card class="bg-green-8 text-white">
@@ -91,7 +100,7 @@
               class="text-weight-bold"
               :class="{
                 'text-h4': $q.screen.gt.xs,
-                'text-h5': $q.screen.lt.sm
+                'text-h6': $q.screen.lt.sm
               }"
               >Играть</q-item-section
             >
@@ -118,13 +127,13 @@
       <div class="col-sm-4 col-xs-6" v-if="personal">
         <q-card class="own-last-score text-white">
           <q-card-section class="font-brand text-h6 text-weight-bold">
-            Последний результат:
+            Последний:
           </q-card-section>
           <q-card-section class="font-brand text-h2 q-pt-none text-weight-bold">
-            19
+            {{ personal.latest.value }}
           </q-card-section>
           <q-card-section class="font-brand q-pt-none vertical-bottom">
-            27.04.2021
+            {{ formatDate(personal.latest.createdAt) }}
           </q-card-section>
         </q-card>
       </div>
@@ -136,7 +145,7 @@
             Игровых туров:
           </q-card-section>
           <q-card-section class="font-brand text-h2 q-pt-none text-weight-bold">
-            193
+            {{ personal.count }}
           </q-card-section>
           <q-card-section class="font-brand q-pt-none vertical-bottom">
             Ограничений нет :)
@@ -203,6 +212,7 @@ export default {
     async onLogout() {
       this.$q.cookies.remove("reaction_jwt", { path: "/" });
       this.$store.commit("user/setProfile", null);
+      this.$store.commit("user/setResults", null);
       this.loginExpanded = false;
     },
 
@@ -231,10 +241,10 @@ export default {
   background-size: cover
 
 .own-last-score
-  background-image: url('https://eskipaper.com/images/sky-wallpapers-4.jpg')
+  background-image: url('~src/assets/img/sky.jpg')
   background-size: cover
 
 .own-play-count
-  background-image: url('https://wallpapershome.com/images/pages/pic_v/20703.jpg')
+  background-image: url('~src/assets/img/aurora.jpg')
   background-size: cover
 </style>

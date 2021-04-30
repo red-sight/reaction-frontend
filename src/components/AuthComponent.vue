@@ -1,8 +1,15 @@
 <template>
   <div>
-    <div class="text-body1 q-pb-md">
+    <div class="text-body1">
       Авторизируйтесь любым из указанных способов, чтобы сохранить свои
-      результаты:
+      результаты.
+    </div>
+    <div class="text-caption q-pb-sm">
+      Авторизируясь, вы выражаете свое согласие с
+      <a href="#" @click="showSiteRules = true">правилами сайта</a>, а также c
+      <a href="#" @click="showPersonalData = true"
+        >политикой хранения личных данных</a
+      >.
     </div>
     <q-btn
       v-for="provider in providers"
@@ -13,11 +20,29 @@
       type="a"
       :href="provider.link"
     />
+    <site-rules :show.sync="showSiteRules" />
+    <personal-data :show.sync="showPersonalData" />
   </div>
 </template>
 
 <script>
 export default {
+  name: "AuthComponent",
+
+  components: {
+    SiteRules: () =>
+      import("components/terms_conditions/RulesSiteComponent.vue"),
+    PersonalData: () =>
+      import("components/terms_conditions/PersonalDataComponent.vue")
+  },
+
+  data() {
+    return {
+      showSiteRules: false,
+      showPersonalData: false
+    };
+  },
+
   computed: {
     providers() {
       return [
