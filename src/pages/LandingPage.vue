@@ -153,6 +153,18 @@
         </q-card>
       </div>
 
+      <!-- Список лидеров -->
+      <div class="col-12" v-if="globalScores && leaders.length">
+        <q-table
+          title="Список лидеров"
+          class="leaders-table"
+          :data="leaders"
+          :columns="leadersCols"
+          row-key="name"
+          dark
+        />
+      </div>
+
       <!-- About -->
       <div class="col-12">
         <q-card>
@@ -191,7 +203,38 @@ export default {
 
   data() {
     return {
-      loginExpanded: false
+      loginExpanded: false,
+      globalScores: [],
+      leadersCols: [
+        {
+          name: "index",
+          label: "Место",
+          field: "index",
+          align: "left",
+          sortable: false
+        },
+        {
+          name: "score",
+          label: "Результат",
+          field: "score",
+          align: "left",
+          sortable: false
+        },
+        {
+          name: "username",
+          label: "Имя игрока",
+          field: "username",
+          align: "left",
+          sortable: false
+        },
+        {
+          name: "date",
+          label: "Дата и время игры",
+          field: "date",
+          align: "left",
+          sortable: false
+        }
+      ]
     };
   },
 
@@ -201,6 +244,16 @@ export default {
     },
     personal() {
       return this.$store.state.user.results;
+    },
+    leaders() {
+      return this.globalScores.map((score, index) => {
+        return {
+          index: index + 1,
+          score: score.value,
+          username: score.user.username,
+          date: this.formatDate(score.createdAt)
+        };
+      });
     }
   },
 
@@ -222,11 +275,22 @@ export default {
 
     formatDate(val) {
       return date.formatDate(val, "YYYY-MM-DD HH:mm");
+    },
+
+    async getGlobalScores() {
+      const res = await this.$axios({
+        method: "get",
+        url: `${process.env.API_URL}/scores`
+      });
+      if (res && res.data) {
+        this.globalScores = res.data;
+      }
     }
   },
 
   mounted() {
     this.$store.dispatch("user/getPersonalResults");
+    this.getGlobalScores();
   }
 };
 </script>
@@ -247,4 +311,7 @@ export default {
 .own-play-count
   background-image: url('~src/assets/img/aurora.jpg')
   background-size: cover
+
+.leaders-table
+  background: rgba(0,0,0,0.5)
 </style>
