@@ -27,7 +27,7 @@ jobs:
         run: ssh staging '
           export PATH=$PATH:/root/.nvm/versions/node/v14.16.1/bin &&
           export NODE_ENV=production &&
-          cd ~/reaction-ui &&
+          cd ~/reaction-frontend &&
           git checkout master &&
           git pull &&
           npm install &&
