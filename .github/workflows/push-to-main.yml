@@ -31,5 +31,5 @@ jobs:
           git checkout master &&
           git pull &&
           npm install &&
-          npm run build &&
-          npm run serve'
+          quasar build &&
+          quasar serve --history dist/spa'
