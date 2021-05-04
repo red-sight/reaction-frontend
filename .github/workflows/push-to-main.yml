@@ -32,4 +32,5 @@ jobs:
           git pull &&
           npm install &&
           quasar build &&
-          quasar serve --history dist/spa'
+          rm -r /var/www/reaction-game.ru/* &&
+          cp -r /root/reaction-frontend/dist/spa/* /var/www/reaction-game.ru'
