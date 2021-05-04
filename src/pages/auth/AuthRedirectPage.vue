@@ -21,9 +21,9 @@ export default {
       const isProd = process.env.NODE_ENV === "production";
       this.$q.cookies.set("reaction_jwt", res.data.jwt, {
         expires: 10,
-        httpOnly: isProd,
-        sameSite: isProd,
-        secure: isProd,
+        // httpOnly: isProd,
+        // sameSite: isProd,
+        // secure: isProd,
         path: "/"
       });
       const score = this.$q.localStorage.getItem("last_reaction_score");
