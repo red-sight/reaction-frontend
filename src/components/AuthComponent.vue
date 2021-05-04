@@ -48,10 +48,10 @@ export default {
   computed: {
     providers() {
       return [
-        {
+        /* {
           label: "Facebook",
           link: "https://7e4909c7aee8.ngrok.io/connect/facebook"
-        },
+        }, */
         {
           label: "Google",
           link: `${process.env.API_URL}/connect/google`
