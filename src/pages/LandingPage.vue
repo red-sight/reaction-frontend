@@ -210,8 +210,14 @@ export default {
           name: "index",
           label: "Место",
           field: "index",
-          align: "left",
-          sortable: false
+          align: "center",
+          sortable: false,
+          format: (val, row) => {
+            const trophies = ["🥇", "🥈", "🥉"];
+            if (val < trophies.length) return trophies[val];
+            else return val + 1;
+          },
+          style: "font-size: 24px"
         },
         {
           name: "score",
@@ -248,7 +254,7 @@ export default {
     leaders() {
       return this.globalScores.map((score, index) => {
         return {
-          index: index + 1,
+          index,
           score: score.value,
           username: score.user.username,
           date: this.formatDate(score.createdAt)
@@ -280,7 +286,7 @@ export default {
     async getGlobalScores() {
       const res = await this.$axios({
         method: "get",
-        url: `${process.env.API_URL}/scores`
+        url: `${process.env.API_URL}/results`
       });
       if (res && res.data) {
         this.globalScores = res.data;
