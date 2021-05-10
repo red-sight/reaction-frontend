@@ -21,6 +21,9 @@
       style="bg-primary text-white"
       type="a"
       :href="provider.link"
+      :icon="icons[provider.icon]"
+      rounded
+      class="q-mr-sm"
     />
     <site-rules :show.sync="showSiteRules" />
     <personal-data :show.sync="showPersonalData" />
@@ -28,6 +31,13 @@
 </template>
 
 <script>
+import {
+  mdiFacebook,
+  mdiGoogle,
+  mdiInstagram,
+  mdiVk
+} from "@quasar/extras/mdi-v5";
+
 export default {
   name: "AuthComponent",
 
@@ -46,17 +56,25 @@ export default {
   },
 
   computed: {
+    icons() {
+      return {
+        "facebook-square": mdiFacebook,
+        google: mdiGoogle,
+        instagram: mdiInstagram,
+        vk: mdiVk
+      };
+    },
     providers() {
-      return [
-        /* {
-          label: "Facebook",
-          link: "https://7e4909c7aee8.ngrok.io/connect/facebook"
-        }, */
-        {
-          label: "Google",
-          link: `${process.env.API_URL}/connect/google`
+      const allProviders = this.$store.state.providers.list;
+      let providers = [];
+      for (const [key, value] of Object.entries(allProviders)) {
+        if (key !== "email" && value.enabled) {
+          value.label = key;
+          value.link = `${process.env.API_URL}/connect/${key}`;
+          providers.push(value);
         }
-      ];
+      }
+      return providers;
     }
   }
 };

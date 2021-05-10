@@ -14,5 +14,13 @@ export default async ({ app, router, store, Vue }) => {
     } else {
       Cookies.remove("reaction_jwt", { path: "/" });
     }
+  } else {
+    const res = await axios.get(
+      `${process.env.API_URL}/users-permissions/providers`
+    );
+    console.log(res.data);
+    if (res.data) {
+      store.commit("providers/setList", res.data);
+    }
   }
 };
