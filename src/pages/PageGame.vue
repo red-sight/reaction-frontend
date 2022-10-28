@@ -59,13 +59,13 @@ export default {
       timeCounter: null,
       showModal: false,
       fullscreenEnabled: null,
-      increaseScoreSound: null
+      increaseScoreSound: null,
     };
   },
 
   components: {
     batak: () => import("../components/Batak.vue"),
-    ResultModal: () => import("../components/ResultModal.vue")
+    ResultModal: () => import("../components/ResultModal.vue"),
     // FullscreenExitIcon: () => import("assets/icons/FullscreenExit.vue"),
     // FullscreenIcon: () => import("assets/icons/Fullscreen.vue"),
     // CloseIcon: () => import("assets/icons/Close.vue")
@@ -78,13 +78,13 @@ export default {
 
     shareURL() {
       return {
-        VK: `https://vk.com/share.php?url=${window.location.origin}&title=Игра&image=${window.location.origin}/img/scores/0.png`
+        VK: `https://vk.com/share.php?url=${window.location.origin}&title=Игра&image=${window.location.origin}/img/scores/0.png`,
       };
     },
 
     user() {
       return this.$store.state.user.profile;
-    }
+    },
   },
 
   async mounted() {
@@ -167,14 +167,14 @@ export default {
               "Вы уверены что хотите закрыть игру и вернуться в главное меню?",
             cancel: {
               label: "Отмена",
-              flat: true
+              flat: true,
             },
             ok: {
               label: "Выйти",
               color: "negative",
-              flat: true
+              flat: true,
             },
-            persistent: true
+            persistent: true,
           })
           .onOk(() => {
             this.$q.fullscreen.exit();
@@ -195,8 +195,8 @@ export default {
     exitGame() {
       this.$q.fullscreen.exit();
       this.$router.push("/");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -211,8 +211,8 @@ export default {
 
 .game-toggles
   position: fixed
-  right: 0;
-  top: 0;
+  right: 0
+  top: 0
   padding: 10px
 
 .actions

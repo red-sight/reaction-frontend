@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "build": "quasar build",
+    "dev": "quasar dev",
     "serve": "quasar serve --history dist/spa",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -42,7 +43,7 @@
     "last 5 Opera versions"
   ],
   "engines": {
-    "node": ">= 10.18.1",
+    "node": ">=14 <15",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }
